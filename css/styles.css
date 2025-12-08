@@ -49,6 +49,14 @@ nav a{margin-left:18px;color:var(--muted);text-decoration:none}
 .post-contents h1{font-family:'Source Serif 4', Georgia, serif}
 .meta{color:var(--muted);font-size:0.95rem;margin-bottom:18px}
 
+/* In-post lede should match body text color */
+.post-contents .lede{color:var(--text)}
+
+/* Social link/icon */
+.social-link{display:inline-flex;align-items:center;gap:10px;color:var(--accent);text-decoration:none}
+.social-link:hover{opacity:0.9}
+.social-icon{width:20px;height:20px;display:inline-block}
+
 @media (max-width:640px){
   .container{padding:28px 18px}
   .hero h1{font-size:1.6rem}
