@@ -23,3 +23,10 @@ How to add a new Musings post:
 3. Update `musings/index.html` and `index.html` to link to the new post (or use a tiny build script to automate this).
 
 If you want automatic markdown → HTML builds or templating, I can add a small Node script (remark) or a Jekyll/_layouts setup — tell me which you prefer.
+
+Added features in this update:
+
+- `about.html` — an About page template.
+- `assets/` — placeholder logos and screenshots for projects.
+- `js/gallery.js` — lightweight script to open screenshots in a modal lightbox.
+- Updated `projects/index.html` to use project cards with logos and clickable screenshots.

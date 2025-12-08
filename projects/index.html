@@ -8,33 +8,44 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a class="brand" href="/">Your Name</a>
-      <nav>
-        <a href="/musings/">Musings</a>
-        <a href="/projects/">Project History</a>
-      </nav>
-    </div>
-  </header>
+  <div id="site-header"></div>
 
   <main class="container">
     <h1>Project History</h1>
-    <p class="lede">A concise timeline of projects, experiments and notes about what I learned.</p>
+    <p class="lede">A concise timeline of projects, experiments and notes about what I learned. Click screenshots to view full size.</p>
 
     <section>
-      <h2>2025 — Select Projects</h2>
-      <ul>
-        <li><strong>Minimal Notes</strong> — a lightweight note-taking layout experiment focused on distraction-free writing.</li>
-        <li><strong>Portfolio Rebuild</strong> — refactor of assets and accessibility-first design updates.</li>
-      </ul>
-    </section>
+      <h2>Selected Projects</h2>
+      <div class="projects-list">
+        <article class="project-card">
+          <div class="project-header">
+            <img class="project-logo" src="/assets/logos/project1-logo.svg" alt="Project One logo">
+            <div class="project-info">
+              <h3>Project One — Experimental Game</h3>
+              <div class="project-meta">Role: Designer / Systems • 2025</div>
+            </div>
+          </div>
+          <p class="lede">A small experimental game focusing on emergent systems and tight interactions.</p>
+          <div class="screenshots">
+            <img class="screenshot screenshot-link" src="/assets/screenshots/project1-1.svg" data-full="/assets/screenshots/project1-1.svg" alt="Project One screenshot 1">
+            <img class="screenshot screenshot-link" src="/assets/screenshots/project1-2.svg" data-full="/assets/screenshots/project1-2.svg" alt="Project One screenshot 2">
+          </div>
+        </article>
 
-    <section>
-      <h2>2024</h2>
-      <ul>
-        <li><strong>Tooling</strong> — small CLI utilities for content workflow.</li>
-      </ul>
+        <article class="project-card">
+          <div class="project-header">
+            <img class="project-logo" src="/assets/logos/project2-logo.svg" alt="Project Two logo">
+            <div class="project-info">
+              <h3>Project Two — Tooling</h3>
+              <div class="project-meta">Role: Engineer • 2024</div>
+            </div>
+          </div>
+          <p class="lede">Utilities and editor tools used in content pipelines and prototyping.</p>
+          <div class="screenshots">
+            <img class="screenshot screenshot-link" src="/assets/screenshots/project2-1.svg" data-full="/assets/screenshots/project2-1.svg" alt="Project Two screenshot">
+          </div>
+        </article>
+      </div>
     </section>
   </main>
 
@@ -44,5 +55,7 @@
     </div>
   </footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="/js/includes.js"></script>
+  <script src="/js/gallery.js"></script>
 </body>
 </html>

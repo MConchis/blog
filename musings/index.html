@@ -8,15 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a class="brand" href="/">Your Name</a>
-      <nav>
-        <a href="/musings/">Musings</a>
-        <a href="/projects/">Project History</a>
-      </nav>
-    </div>
-  </header>
+  <div id="site-header"></div>
 
   <main class="container">
     <h1>Musings</h1>
@@ -46,5 +38,7 @@
     </div>
   </footer>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="/js/includes.js"></script>
+  <script src="/js/gallery.js"></script>
 </body>
 </html>
