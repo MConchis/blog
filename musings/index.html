@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Musings — Your Name</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="/">Your Name</a>
+      <nav>
+        <a href="/musings/">Musings</a>
+        <a href="/projects/">Project History</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Musings</h1>
+    <p class="lede">Short essays, notes, and reflections. Newest first.</p>
+
+    <ul class="posts-list">
+      <li class="post-item">
+        <a href="/musings/posts/post-2.html">
+          <strong>Designing for Quiet — A Minimal Approach</strong>
+          <time datetime="2025-12-01">Dec 1, 2025</time>
+          <p class="excerpt">Why reduction is a feature and how constraints become creative tools.</p>
+        </a>
+      </li>
+      <li class="post-item">
+        <a href="/musings/posts/post-1.html">
+          <strong>On Writing Short Essays</strong>
+          <time datetime="2025-11-15">Nov 15, 2025</time>
+          <p class="excerpt">Reflections on clarity, structure and starting small.</p>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Your Name</p>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
