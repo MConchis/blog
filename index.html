@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <div id="site-header"></div>
+  <div id="site-header" data-include="/partials/header.html"></div>
 
   <main class="container">
     <section class="hero">
@@ -47,15 +47,8 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Your Name — Built for GitHub Pages</p>
-    </div>
-  </footer>
+  <div id="site-footer" data-include="/partials/footer.html"></div>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
   <script src="/js/includes.js"></script>
   <script src="/js/gallery.js"></script>
 </body>
