@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — Your Name</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="site-header" data-include="/partials/header.html"></div>
+
+  <main class="container">
+    <h1>Portfolio</h1>
+    <p class="lede">A concise timeline of projects, experiments and notes about what I learned. Click screenshots to view full size.</p>
+
+    <section>
+      <h2>Selected Projects</h2>
+      <div class="projects-list">
+        <article class="project-card">
+          <div class="project-header">
+            <img class="project-logo" src="/assets/logos/project1-logo.svg" alt="Project One logo">
+            <div class="project-info">
+              <h3>Project One — Experimental Game</h3>
+              <div class="project-meta">Role: Designer / Systems • 2025</div>
+            </div>
+          </div>
+          <p class="lede">A small experimental game focusing on emergent systems and tight interactions.</p>
+          <div class="screenshots">
+            <img class="screenshot screenshot-link" src="/assets/screenshots/project1-1.svg" data-full="/assets/screenshots/project1-1.svg" alt="Project One screenshot 1">
+            <img class="screenshot screenshot-link" src="/assets/screenshots/project1-2.svg" data-full="/assets/screenshots/project1-2.svg" alt="Project One screenshot 2">
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-header">
+            <img class="project-logo" src="/assets/logos/project2-logo.svg" alt="Project Two logo">
+            <div class="project-info">
+              <h3>Project Two — Tooling</h3>
+              <div class="project-meta">Role: Engineer • 2024</div>
+            </div>
+          </div>
+          <p class="lede">Utilities and editor tools used in content pipelines and prototyping.</p>
+          <div class="screenshots">
+            <img class="screenshot screenshot-link" src="/assets/screenshots/project2-1.svg" data-full="/assets/screenshots/project2-1.svg" alt="Project Two screenshot">
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer" data-include="/partials/footer.html"></div>
+  <script src="/js/includes.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script src="/js/spa.js"></script>
+</body>
+</html>

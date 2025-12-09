@@ -57,6 +57,9 @@ nav a{margin-left:18px;color:var(--muted);text-decoration:none}
 .social-link:hover{opacity:0.9}
 .social-icon{width:20px;height:20px;display:inline-block}
 
+/* Hidden nav links (present in DOM but not shown in nav) */
+nav a.hidden-link{display:none}
+
 @media (max-width:640px){
   .container{padding:28px 18px}
   .hero h1{font-size:1.6rem}
