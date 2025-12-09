@@ -16,35 +16,8 @@
 
     <section>
       <h2>Selected Projects</h2>
-      <div class="projects-list">
-        <article class="project-card">
-          <div class="project-header">
-            <img class="project-logo" src="/assets/logos/project1-logo.svg" alt="Project One logo">
-            <div class="project-info">
-              <h3>Project One — Experimental Game</h3>
-              <div class="project-meta">Role: Designer / Systems • 2025</div>
-            </div>
-          </div>
-          <p class="lede">A small experimental game focusing on emergent systems and tight interactions.</p>
-          <div class="screenshots">
-            <img class="screenshot screenshot-link" src="/assets/screenshots/project1-1.svg" data-full="/assets/screenshots/project1-1.svg" alt="Project One screenshot 1">
-            <img class="screenshot screenshot-link" src="/assets/screenshots/project1-2.svg" data-full="/assets/screenshots/project1-2.svg" alt="Project One screenshot 2">
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-header">
-            <img class="project-logo" src="/assets/logos/project2-logo.svg" alt="Project Two logo">
-            <div class="project-info">
-              <h3>Project Two — Tooling</h3>
-              <div class="project-meta">Role: Engineer • 2024</div>
-            </div>
-          </div>
-          <p class="lede">Utilities and editor tools used in content pipelines and prototyping.</p>
-          <div class="screenshots">
-            <img class="screenshot screenshot-link" src="/assets/screenshots/project2-1.svg" data-full="/assets/screenshots/project2-1.svg" alt="Project Two screenshot">
-          </div>
-        </article>
+      <div id="projects" class="projects-grid" aria-live="polite">
+        <!-- Projects will be rendered here -->
       </div>
     </section>
   </main>
@@ -53,5 +26,59 @@
   <script src="/js/includes.js"></script>
   <script src="/js/gallery.js"></script>
   <script src="/js/spa.js"></script>
+  <script>
+    // Small styling tweaks to ensure screenshots align visually in the portfolio page
+    (function addStyles(){
+      const css = `
+        .projects-grid { display:flex; flex-direction:column; gap:28px; }
+        .project-card { display:flex; flex-direction:column; gap:12px; padding:18px; border-radius:8px; background:var(--card-bg,#fff); box-shadow:var(--card-shadow,0 1px 0 rgba(0,0,0,0.04)); }
+        .project-header{ display:flex; gap:12px; align-items:center }
+        .project-logo{ width:64px; height:64px; object-fit:contain }
+        .project-info h3{ margin:0; font-size:1.05rem }
+        .screenshots{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+        .screenshots img{ width:220px; height:140px; object-fit:cover; border-radius:6px; background:#f3f3f3 }
+        @media (max-width:700px){ .screenshots img{ width:48vw; height:32vw } }
+      `;
+      const s=document.createElement('style'); s.textContent=css; document.head.appendChild(s);
+    })();
+
+    // Fetch and render projects.json
+    fetch('/portfolio/projects.json', {cache:'no-store'}).then(r=>r.json()).then(projects=>{
+      const mount = document.getElementById('projects');
+      if (!projects || !projects.length) { mount.innerHTML = '<p>No projects found.</p>'; return }
+      projects.forEach(p=>{
+        const art = document.createElement('article'); art.className='project-card';
+
+        const header = document.createElement('div'); header.className='project-header';
+        if (p.logo) {
+          const img = document.createElement('img'); img.className='project-logo'; img.src=p.logo; img.alt = p.title + ' logo'; header.appendChild(img);
+        }
+        const info = document.createElement('div'); info.className='project-info';
+        const h3 = document.createElement('h3'); h3.textContent = p.title || 'Untitled';
+        const meta = document.createElement('div'); meta.className='project-meta'; meta.textContent = p.role || '';
+        info.appendChild(h3); if (p.role) info.appendChild(meta);
+        header.appendChild(info);
+
+        art.appendChild(header);
+
+        if (p.description) {
+          const descr = document.createElement('p'); descr.className='lede'; descr.textContent = p.description; art.appendChild(descr);
+        }
+
+        if (p.images && p.images.length) {
+          const shots = document.createElement('div'); shots.className='screenshots';
+          p.images.forEach(src=>{
+            const im = document.createElement('img'); im.className='screenshot screenshot-link'; im.src = src; im.setAttribute('data-full', src); im.alt = p.title + ' screenshot'; shots.appendChild(im);
+          });
+          art.appendChild(shots);
+        }
+
+        mount.appendChild(art);
+      });
+
+      // Initialize gallery bindings after DOM insertion
+      if (window.initGallery) { try { window.initGallery(); } catch(e){ console.warn(e) } }
+    }).catch(err=>{ console.error('Failed to load projects.json', err); document.getElementById('projects').innerHTML='<p>Error loading projects.</p>' });
+  </script>
 </body>
 </html>
