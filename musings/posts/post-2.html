@@ -12,15 +12,27 @@
 
   <main class="container">
     <article class="post-contents">
-      <h1>Designing for Quiet — A Minimal Approach</h1>
-      <p class="meta">Dec 1, 2025 • 850 words</p>
+      <header class="post-header">
+        <a class="back-link" href="/musings/">← Back to Musings</a>
+        <h1>Designing for Quiet — A Minimal Approach</h1>
+        <p class="meta">Dec 1, 2025 • 850 words • <span class="tags">Design, UX, Philosophy</span></p>
+      </header>
 
-      <p>Quiet design is not merely the absence of ornament; it's a deliberate setting of priorities. Interfaces, narratives and tools should remove noise and foreground the user's task.</p>
+      <section class="lede">
+        <p>Quiet design is not merely the absence of ornament; it's a deliberate setting of priorities. Interfaces, narratives and tools should remove noise and foreground the user's task.</p>
+      </section>
 
-      <h2>Constraints as clarity</h2>
-      <p>When you choose fewer type sizes, a tighter palette and fewer layout patterns, each element carries more meaning.</p>
+      <section>
+        <h2>Constraints as clarity</h2>
+        <p>When you choose fewer type sizes, a tighter palette and fewer layout patterns, each element carries more meaning.</p>
 
-      <p>Design for breath. Let users rest between ideas.</p>
+        <p>Design for breath. Let users rest between ideas. Remove what distracts and accentuate what matters. This isn't about making things invisible — it's about making choices explicit.</p>
+      </section>
+
+      <footer class="post-footer">
+        <p class="author">Written by <strong>Haluk Diriker</strong></p>
+        <p class="share">Share: <a href="#" onclick="window.navigator.clipboard && window.navigator.clipboard.writeText(location.href).then(()=>alert('Link copied'))">Copy link</a></p>
+      </footer>
     </article>
   </main>
 
@@ -28,5 +40,16 @@
   <script src="/js/includes.js"></script>
   <script src="/js/gallery.js"></script>
   <script src="/js/spa.js"></script>
+  <script>
+    // Ensure gallery bindings run after includes have been inserted.
+    document.addEventListener('DOMContentLoaded', function () {
+      // Small delay to allow `includes.js` fetches to complete on slow networks.
+      setTimeout(function () {
+        if (window.initGallery) {
+          try { window.initGallery(); } catch (e) { console.warn('initGallery failed', e); }
+        }
+      }, 250);
+    });
+  </script>
 </body>
 </html>
