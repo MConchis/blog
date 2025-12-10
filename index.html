@@ -14,27 +14,14 @@
 
   <main class="container">
     <section class="hero">
-      <h1>Welcome</h1>
-      <p class="lede">Minimal writing, clear thinking — occasional project updates.</p>
+      <h1>Welcome to Art of Videogame Development</h1>
+      <p class="lede">This is a space for opinions on game development and some other interests.</p>
     </section>
 
     <section aria-labelledby="recent">
       <h2 id="recent">Recent Musings</h2>
-      <ul class="posts-list">
-        <li class="post-item">
-          <a href="/blog/musings/posts/post-2.html">
-            <strong>Designing for Quiet — A Minimal Approach</strong>
-            <time datetime="2025-12-01">Dec 1, 2025</time>
-            <p class="excerpt">Why reduction is a feature and how constraints become creative tools.</p>
-          </a>
-        </li>
-        <li class="post-item">
-          <a href="/blog/musings/posts/post-1.html">
-            <strong>On Writing Short Essays</strong>
-            <time datetime="2025-11-15">Nov 15, 2025</time>
-            <p class="excerpt">Reflections on clarity, structure and starting small.</p>
-          </a>
-        </li>
+      <ul class="posts-list" id="recent-musings">
+        <!-- Recent posts will be loaded from JSON -->
       </ul>
     </section>
 
@@ -51,5 +38,42 @@
   <script src="/blog/js/includes.js"></script>
   <script src="/blog/js/gallery.js"></script>
   <script src="/blog/js/spa.js"></script>
+  <script>
+    // Load recent musings on homepage
+    const loadRecentMusings = async () => {
+      const urls = ['/blog/musings/musings.json', '/musings/musings.json'];
+      let data = null;
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, {cache:'no-store'});
+          if (res.ok) {
+            data = await res.json();
+            break;
+          }
+        } catch (e) {
+          console.warn('Failed to fetch ' + url);
+        }
+      }
+      if (!data || !data.length) {
+        document.getElementById('recent-musings').innerHTML = '<p>No musings yet.</p>';
+        return;
+      }
+      const list = document.getElementById('recent-musings');
+      // Show first 2 recent posts
+      data.slice(0, 2).forEach(post => {
+        const li = document.createElement('li');
+        li.className = 'post-item';
+        li.innerHTML = `
+          <a href="/blog/musings/posts/${post.slug}.html">
+            <strong>${post.title}</strong>
+            <time datetime="${post.date}">${post.dateFormatted}</time>
+            <p class="excerpt">${post.excerpt}</p>
+          </a>
+        `;
+        list.appendChild(li);
+      });
+    };
+    loadRecentMusings();
+  </script>
 </body>
 </html>

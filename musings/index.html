@@ -12,23 +12,10 @@
 
   <main class="container">
     <h1>Musings</h1>
-    <p class="lede">Short essays, notes, and reflections. Newest first.</p>
+    <p class="lede">Short essays about game development and other interests</p>
 
-    <ul class="posts-list">
-      <li class="post-item">
-        <a href="/blog/musings/posts/post-2.html">
-          <strong>Designing for Quiet — A Minimal Approach</strong>
-          <time datetime="2025-12-01">Dec 1, 2025</time>
-          <p class="excerpt">Why reduction is a feature and how constraints become creative tools.</p>
-        </a>
-      </li>
-      <li class="post-item">
-        <a href="/blog/musings/posts/post-1.html">
-          <strong>On Writing Short Essays</strong>
-          <time datetime="2025-11-15">Nov 15, 2025</time>
-          <p class="excerpt">Reflections on clarity, structure and starting small.</p>
-        </a>
-      </li>
+    <ul class="posts-list" id="musings-list">
+      <!-- Posts will be loaded from JSON -->
     </ul>
   </main>
 
@@ -36,5 +23,41 @@
   <script src="/blog/js/includes.js"></script>
   <script src="/blog/js/gallery.js"></script>
   <script src="/blog/js/spa.js"></script>
+  <script>
+    // Load musings from JSON
+    const loadMusings = async () => {
+      const urls = ['/blog/musings/musings.json', '/musings/musings.json'];
+      let data = null;
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, {cache:'no-store'});
+          if (res.ok) {
+            data = await res.json();
+            break;
+          }
+        } catch (e) {
+          console.warn('Failed to fetch ' + url);
+        }
+      }
+      if (!data) {
+        document.getElementById('musings-list').innerHTML = '<p>Error loading musings.</p>';
+        return;
+      }
+      const list = document.getElementById('musings-list');
+      data.forEach(post => {
+        const li = document.createElement('li');
+        li.className = 'post-item';
+        li.innerHTML = `
+          <a href="/blog/musings/posts/${post.slug}.html">
+            <strong>${post.title}</strong>
+            <time datetime="${post.date}">${post.dateFormatted}</time>
+            <p class="excerpt">${post.excerpt}</p>
+          </a>
+        `;
+        list.appendChild(li);
+      });
+    };
+    loadMusings();
+  </script>
 </body>
 </html>
