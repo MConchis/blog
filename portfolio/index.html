@@ -22,10 +22,10 @@
     </section>
   </main>
 
-  <div id="site-footer" data-include="/partials/footer.html"></div>
-  <script src="/js/includes.js"></script>
-  <script src="/js/gallery.js"></script>
-  <script src="/js/spa.js"></script>
+  <div id="site-footer" data-include="../partials/footer.html"></div>
+  <script src="../js/includes.js"></script>
+  <script src="../js/gallery.js"></script>
+  <script src="../js/spa.js"></script>
   <script>
     // Small styling tweaks to ensure screenshots align visually in the portfolio page
     (function addStyles(){
@@ -43,7 +43,7 @@
     })();
 
     // Fetch and render projects.json
-    fetch('/portfolio/projects.json', {cache:'no-store'}).then(r=>r.json()).then(projects=>{
+    fetch('./projects.json', {cache:'no-store'}).then(r=>r.json()).then(projects=>{
       const mount = document.getElementById('projects');
       if (!projects || !projects.length) { mount.innerHTML = '<p>No projects found.</p>'; return }
       projects.forEach(p=>{
