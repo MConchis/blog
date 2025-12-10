@@ -3,79 +3,79 @@
         "title":  "Nyan Heroes (PC)",
         "description":  "Nyan Heroes is a hero-based PvP shooter built on a blockchain-powered free-to-play model, featuring fast-paced vertical action with cats piloting mechs. I began as Head of Design, focusing my first year on refining core gameplay movement, shooting mechanics and assembling a team capable of delivering AAA quality. Before year's end, I was promoted to Game Director, overseeing both Art and Design, as well as Talent Acquisition. My leadership aimed to elevate development standards and delivery rates, including a major overhaul of the art style to better reflect the IP and appeal to core shooter fans. At peak, I managed a team of over 70, including designers, artists, animators, programmers, and external partners.",
         "images":  [
-                       "/assets/screenshots/Nyan1.png",
-                       "/assets/screenshots/Nyan2.png"
+                       "/blog/assets/screenshots/Nyan1.png",
+                       "/blog/assets/screenshots/Nyan2.png"
                    ]
     },
     {
         "title":  "Merchanauts",
         "description":  "Merchanauts is a PC strategy game where players manage the logistics of a shipping business. I joined Limbatvs Inc. during the seed funding round, crafting the game section of the pitch deck. After funding was secured, I built and led the development team in Unreal Engine 4, guiding art direction, game systems, and tools development. My hands-on work included level setup, content creation, and prototyping systems for programmers.",
         "images":  [
-                       "/assets/screenshots/Merchanauts1.png"
+                       "/blog/assets/screenshots/Merchanauts1.png"
                    ]
     },
     {
         "title":  "Monstrous (PC, PS4, Xbox One)",
         "description":  "Monstrous is a third-person action game developed in Unity by a team of 11. As Producer, I was responsible for planning, execution, and delivery, making key decisions on game direction, personnel, and features. I also served as Stakeholder for the programming department, collaborating on technology choices and implementation strategies.",
         "images":  [
-                       "/assets/screenshots/Monstrous1.png",
-                       "/assets/screenshots/Monstrous2.png"
+                       "/blog/assets/screenshots/Monstrous1.png",
+                       "/blog/assets/screenshots/Monstrous2.png"
                    ]
     },
     {
         "title":  "Catalhoyuk VR (HTC Vive/PC)",
         "description":  "Originally a research project at Pompeu Fabra University, Catalhoyuk VR was adapted for the Curious Case of Catalhoyuk exhibition by ANAMED in Istanbul. I led the adaptation, transforming a six-stage research experience into a seamless, immersive journey for visitors. My contributions included rewriting code, redesigning levels, adding new interactions, and rebuilding lighting for a cinematic atmosphere. I also ported the project to HTC Vive.",
         "images":  [
-                       "/assets/screenshots/Catal1.png",
-                       "/assets/screenshots/Catal2.png"
+                       "/blog/assets/screenshots/Catal1.png",
+                       "/blog/assets/screenshots/Catal2.png"
                    ]
     },
     {
         "title":  "Mandate (PC)",
         "description":  "Mandate is a strategy/simulation game developed in Unity by a team of over 25. As Senior Designer, I was responsible for the technical design of features such as AI, character systems, camera, and controls. I also coordinated workflows between design, code, and art teams.",
         "images":  [
-                       "/assets/screenshots/Mandate1.png",
-                       "/assets/screenshots/Mandate2.png"
+                       "/blog/assets/screenshots/Mandate1.png",
+                       "/blog/assets/screenshots/Mandate2.png"
                    ]
     },
     {
         "title":  "Viva Pinata (Xbox One)",
         "description":  "Viva Pinata was an unreleased Xbox One title developed by a team of more than 30 using a proprietary engine. I was a stakeholder for monetization and core gameplay systems (character, camera, controls), leading a strike team of programmers to deliver action sequences and collaborating with the Producer on monetization design and implementation.",
         "images":  [
-                       "/assets/screenshots/Viva1.png",
-                       "/assets/screenshots/Viva2.png"
+                       "/blog/assets/screenshots/Viva1.png",
+                       "/blog/assets/screenshots/Viva2.png"
                    ]
     },
     {
         "title":  "Silent Hunter Online (PC)",
         "description":  "Silent Hunter Online is a simulation/open-world browser game developed by a team of 35+ in a proprietary engine. As Senior Designer, I led AI, combat, and campaign design, and participated in publisher negotiations and planning sessions with Ubisoft Bluebyte through to release.",
         "images":  [
-                       "/assets/screenshots/SilentHunter1.png",
-                       "/assets/screenshots/SilentHunter2.png"
+                       "/blog/assets/screenshots/SilentHunter1.png",
+                       "/blog/assets/screenshots/SilentHunter2.png"
                    ]
     },
     {
         "title":  "Sigils: Battle for Raios (Tablet)",
         "description":  "Sigils: Battle for Raios is a MOBA game for iOS and Android, developed by a team of 20+ in a proprietary engine. I was Senior Designer for core gameplay mechanics and level design, and led a strike team to develop and implement game AI.",
         "images":  [
-                       "/assets/screenshots/Sigils1.png",
-                       "/assets/screenshots/Sigils2.png"
+                       "/blog/assets/screenshots/Sigils1.png",
+                       "/blog/assets/screenshots/Sigils2.png"
                    ]
     },
     {
         "title":  "Ryse: Son of Rome (Xbox 360, PC)",
         "description":  "Ryse: Son of Rome is a third-person action game developed in CryEngine by a team of over 100. As Game Designer, I led systems and design for the first two years, working with designers and programmers to deliver the MVP. My responsibilities included combat, AI, core gameplay systems, publisher communications, and team vision alignment.",
         "images":  [
-                       "/assets/screenshots/RyseSonofRome1.png",
-                       "/assets/screenshots/RyseSonofRome2.png"
+                       "/blog/assets/screenshots/RyseSonofRome1.png",
+                       "/blog/assets/screenshots/RyseSonofRome2.png"
                    ]
     },
     {
         "title":  "Age of Conan (PC)",
         "description":  "Age of Conan is an MMORPG for PC, developed by a team of 140+ in a proprietary engine. As Systems Designer, I designed and scripted raid encounters, quests, and AI behaviors. I also led the Siege Multiplayer and Trading/Crafting strike team, managing outsourced asset production for castles and trade items.",
         "images":  [
-                       "/assets/screenshots/AgeofConan1.png",
-                       "/assets/screenshots/AgeofConan2.png"
+                       "/blog/assets/screenshots/AgeofConan1.png",
+                       "/blog/assets/screenshots/AgeofConan2.png"
                    ]
     }
 ]
