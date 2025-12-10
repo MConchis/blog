@@ -66,14 +66,16 @@
         "title":  "Ryse: Son of Rome (Xbox 360, PC)",
         "description":  "Ryse: Son of Rome is a third-person action game developed in CryEngine by a team of over 100. As Game Designer, I led systems and design for the first two years, working with designers and programmers to deliver the MVP. My responsibilities included combat, AI, core gameplay systems, publisher communications, and team vision alignment.",
         "images":  [
-                       "/assets/screenshots/project1-1.svg"
+                       "/assets/screenshots/RyseSonofRome1.png",
+                       "/assets/screenshots/RyseSonofRome2.png"
                    ]
     },
     {
         "title":  "Age of Conan (PC)",
         "description":  "Age of Conan is an MMORPG for PC, developed by a team of 140+ in a proprietary engine. As Systems Designer, I designed and scripted raid encounters, quests, and AI behaviors. I also led the Siege Multiplayer and Trading/Crafting strike team, managing outsourced asset production for castles and trade items.",
         "images":  [
-                       "/assets/screenshots/project1-1.svg"
+                       "/assets/screenshots/AgeofConan1.png",
+                       "/assets/screenshots/AgeofConan2.png"
                    ]
     }
 ]
