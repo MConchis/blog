@@ -4,8 +4,18 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!includes.length) return;
 
   includes.forEach(el => {
-    const url = el.getAttribute('data-include');
+    let url = el.getAttribute('data-include');
     if (!url) return;
+
+    // Convert relative paths to absolute paths with blog subdirectory prefix
+    if (url.startsWith('./') || url.startsWith('../')) {
+      const currentPath = window.location.pathname;
+      const basePath = currentPath.split('/').slice(0, -1).join('/');
+      const resolvedPath = new URL(url, window.location.origin + basePath + '/').pathname;
+      url = resolvedPath;
+    } else if (!url.startsWith('/')) {
+      url = '/' + url;
+    }
 
     fetch(url, { cache: 'no-store' })
       .then(r => {
