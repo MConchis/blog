@@ -41,8 +41,19 @@
       const s=document.createElement('style'); s.textContent=css; document.head.appendChild(s);
     })();
 
-    // Fetch and render projects.json
-    fetch('/blog/portfolio/projects.json', {cache:'no-store'}).then(r=>r.json()).then(projects=>{
+    // Fetch and render projects.json with fallback for /blog/ paths
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch('/blog/portfolio/projects.json', {cache:'no-store'});
+        if (res.ok) return res;
+        // Fallback for local dev
+        return await fetch('/portfolio/projects.json', {cache:'no-store'});
+      } catch (e) {
+        throw new Error('Failed to load projects.json');
+      }
+    };
+
+    fetchProjects().then(r=>r.json()).then(projects=>{
       const mount = document.getElementById('projects');
       if (!projects || !projects.length) { mount.innerHTML = '<p>No projects found.</p>'; return }
       projects.forEach(p=>{
