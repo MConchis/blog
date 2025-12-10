@@ -42,18 +42,20 @@
     })();
 
     // Fetch and render projects.json with fallback for /blog/ paths
-    const fetchProjects = async () => {
-      try {
-        const res = await fetch('/blog/portfolio/projects.json', {cache:'no-store'});
-        if (res.ok) return res;
-        // Fallback for local dev
-        return await fetch('/portfolio/projects.json', {cache:'no-store'});
-      } catch (e) {
-        throw new Error('Failed to load projects.json');
+    const attemptFetch = async () => {
+      const urls = ['/blog/portfolio/projects.json', '/portfolio/projects.json'];
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, {cache:'no-store'});
+          if (res.ok) return res;
+        } catch (e) {
+          console.warn('Failed to fetch ' + url);
+        }
       }
+      throw new Error('Could not load projects.json from any location');
     };
 
-    fetchProjects().then(r=>r.json()).then(projects=>{
+    attemptFetch().then(r=>r.json()).then(projects=>{
       const mount = document.getElementById('projects');
       if (!projects || !projects.length) { mount.innerHTML = '<p>No projects found.</p>'; return }
       projects.forEach(p=>{
