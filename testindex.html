@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Welcome — Musings & Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blog/css/styles.css">
+</head>
+<body>
+  <div id="site-header" data-include="/blog/partials/header.html"></div>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Welcome to Art of Videogame Development</h1>
+      <p class="lede">This is a space for opinions on game development and some other interests.</p>
+    </section>
+
+    <section aria-labelledby="recent">
+      <h2 id="recent">Recent Musings</h2>
+      <ul class="posts-list" id="recent-musings">
+        <!-- Recent posts will be loaded from JSON -->
+      </ul>
+    </section>
+
+    <section class="quick-links">
+      <h3>Explore</h3>
+      <p>
+        <a class="button" href="/blog/musings/">All Musings</a>
+      </p>
+    </section>
+  </main>
+
+  <div id="site-footer" data-include="/blog/partials/footer.html"></div>
+
+  <script src="/blog/js/includes.js"></script>
+  <script src="/blog/js/gallery.js"></script>
+  <script src="/blog/js/spa.js"></script>
+  <script>
+    // Load recent musings on homepage
+    const loadRecentMusings = async () => {
+      const urls = ['/blog/musings/musings.json', '/musings/musings.json'];
+      let data = null;
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, {cache:'no-store'});
+          if (res.ok) {
+            data = await res.json();
+            break;
+          }
+        } catch (e) {
+          console.warn('Failed to fetch ' + url);
+        }
+      }
+      if (!data || !data.length) {
+        document.getElementById('recent-musings').innerHTML = '<p>No musings yet.</p>';
+        return;
+      }
+      const list = document.getElementById('recent-musings');
+      // Show first 2 recent posts
+      data.slice(0, 2).forEach(post => {
+        const li = document.createElement('li');
+        li.className = 'post-item';
+        li.innerHTML = `
+          <a href="/blog/musings/posts/${post.slug}.html">
+            <strong>${post.title}</strong>
+            <time datetime="${post.date}">${post.dateFormatted}</time>
+            <p class="excerpt">${post.excerpt}</p>
+          </a>
+        `;
+        list.appendChild(li);
+      });
+    };
+    loadRecentMusings();
+  </script>
+</body>
+</html>
