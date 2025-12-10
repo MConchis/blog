@@ -7,21 +7,25 @@ document.addEventListener('DOMContentLoaded', function () {
     let url = el.getAttribute('data-include');
     if (!url) return;
 
-    // Convert relative paths to absolute paths with blog subdirectory prefix
-    if (url.startsWith('./') || url.startsWith('../')) {
-      const currentPath = window.location.pathname;
-      const basePath = currentPath.split('/').slice(0, -1).join('/');
-      const resolvedPath = new URL(url, window.location.origin + basePath + '/').pathname;
-      url = resolvedPath;
-    } else if (!url.startsWith('/')) {
-      url = '/' + url;
-    }
+    // Try to fetch the URL, with fallback for /blog/ vs local dev
+    const attemptFetch = async () => {
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (res.ok) return res;
+        // If /blog/ path failed, try without /blog/
+        if (url.startsWith('/blog/')) {
+          const altUrl = url.replace('/blog/', '/');
+          const altRes = await fetch(altUrl, { cache: 'no-store' });
+          if (altRes.ok) return altRes;
+        }
+        throw new Error('Not found');
+      } catch (e) {
+        throw new Error('Include fetch failed for ' + url);
+      }
+    };
 
-    fetch(url, { cache: 'no-store' })
-      .then(r => {
-        if (!r.ok) throw new Error('Include fetch failed: ' + r.status + ' ' + url);
-        return r.text();
-      })
+    attemptFetch()
+      .then(r => r.text())
       .then(html => {
         el.innerHTML = html;
         // Add a class for a smooth fade-in to reduce layout flash
