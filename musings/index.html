@@ -24,40 +24,67 @@
   <script src="../js/gallery.js"></script>
   <script src="../js/spa.js"></script>
   <script>
-    // Load musings from JSON
+    // Load musings from JSON with diagnostic logging
     const loadMusings = async () => {
       const urls = ['./musings.json'];
       let data = null;
       for (const url of urls) {
         try {
+          console.log('[musings] fetching', url);
           const res = await fetch(url, {cache:'no-store'});
+          console.log('[musings] response', url, res && res.status);
           if (res.ok) {
             data = await res.json();
             break;
+          } else {
+            const text = await res.text().catch(()=>'<no body>');
+            console.error('[musings] fetch failed', url, res.status, text);
           }
         } catch (e) {
-          console.warn('Failed to fetch ' + url);
+          console.error('[musings] fetch error for', url, e && e.message, e);
         }
       }
+
+      const mount = document.getElementById('musings-list');
       if (!data) {
-        document.getElementById('musings-list').innerHTML = '<p>Error loading musings.</p>';
+        mount.innerHTML = `<div class="error">Error loading musings. See console for details.</div>`;
         return;
       }
-      const list = document.getElementById('musings-list');
+
+      mount.innerHTML = '';
+      const list = mount;
       data.forEach(post => {
-        const li = document.createElement('li');
-        li.className = 'post-item';
-        li.innerHTML = `
-          <a href="./posts/${post.slug}.html">
-            <strong>${post.title}</strong>
-            <time datetime="${post.date}">${post.dateFormatted}</time>
-            <p class="excerpt">${post.excerpt}</p>
-          </a>
-        `;
-        list.appendChild(li);
+        try {
+          const li = document.createElement('li');
+          li.className = 'post-item';
+          li.innerHTML = `
+            <a href="./posts/${post.slug}.html">
+              <strong>${post.title}</strong>
+              <time datetime="${post.date}">${post.dateFormatted}</time>
+              <p class="excerpt">${post.excerpt}</p>
+            </a>
+          `;
+          list.appendChild(li);
+        } catch (e) {
+          console.error('[musings] render error for post', post && post.slug, e);
+        }
       });
     };
+
+    // Run on initial load
     loadMusings();
+
+    // Re-run when SPA navigates to this page
+    window.addEventListener('spa:page-loaded', (ev) => {
+      // only run if the current path is the musings index
+      try {
+        const path = new URL(window.location.href).pathname;
+        if (path.endsWith('/musings/') || path.endsWith('/musings') || path.endsWith('/musings/index.html')) {
+          console.log('[musings] SPA page-loaded event, reloading musings');
+          loadMusings();
+        }
+      } catch (e) { console.warn('[musings] spa event handler error', e); }
+    });
   </script>
 </body>
 </html>
