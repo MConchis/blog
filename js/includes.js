@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', function () {
     let url = el.getAttribute('data-include');
     if (!url) return;
 
-    // Try to fetch the URL, with fallback for /blog/ vs local dev
+    // Try to fetch the URL, with fallback for / vs local dev
     const attemptFetch = async () => {
       try {
         const res = await fetch(url, { cache: 'no-store' });
         if (res.ok) return res;
-        // If /blog/ path failed, try without /blog/
-        if (url.startsWith('/blog/')) {
-          const altUrl = url.replace('/blog/', '/');
+        // If / path failed, try without /
+        if (url.startsWith('/')) {
+          const altUrl = url.replace('/', '/');
           const altRes = await fetch(altUrl, { cache: 'no-store' });
           if (altRes.ok) return altRes;
         }
