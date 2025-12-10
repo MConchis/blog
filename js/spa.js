@@ -29,8 +29,36 @@
       // Update title
       if (doc.title) document.title = doc.title;
 
-      // Update footer/year if included fragment didn't run
+      // Execute any scripts that came with the fetched content.
+      // Browsers do not run <script> tags inserted via innerHTML, so we
+      // need to recreate them to execute inline and external scripts.
+      try {
+        const runScripts = (container) => {
+          const scripts = Array.from(container.querySelectorAll('script'));
+          scripts.forEach(old => {
+            const s = document.createElement('script');
+            // copy attributes (src, type, etc.)
+            for (let i = 0; i < old.attributes.length; i++) {
+              const attr = old.attributes[i];
+              s.setAttribute(attr.name, attr.value);
+            }
+            // inline script content
+            if (old.textContent) s.textContent = old.textContent;
+            // replace the old script with the new one so it executes
+            old.parentNode.replaceChild(s, old);
+          });
+        };
+
+        runScripts(newMain);
+      } catch (e) {
+        console.warn('Failed to execute inline scripts for SPA-inserted content', e);
+      }
+
+      // Update footer/year and gallery bindings if needed
       if (window.initGallery) window.initGallery();
+
+      // Notify listeners that a new page was loaded via SPA
+      window.dispatchEvent(new CustomEvent('spa:page-loaded', { detail: { url } }));
 
       if (addToHistory) history.pushState({spa: true, url: url}, '', url);
       window.scrollTo(0,0);
