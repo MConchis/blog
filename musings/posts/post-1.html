@@ -3,30 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>On Writing Short Essays — Musings</title>
-  <link rel="stylesheet" href="/blog/css/styles.css">
+  <title>Musings</title>
+  <link rel="stylesheet" href="../../css/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="site-header" data-include="/blog/partials/header.html"></div>
+  <div id="site-header" data-include="../../partials/header.html"></div>
 
-  <main class="container">
-    <article class="post-contents">
-      <h1>On Writing Short Essays</h1>
-      <p class="meta">Nov 15, 2025 • 600 words</p>
-
-      <p>Short essays are exercises in reduction. They require you to choose a single idea and hold it clearly, trimming the rest.</p>
-
-      <h2>Start with one question</h2>
-      <p>When you strip away anecdotes and side-tracks, the core question remains. Aim the piece at that question and let the structure follow.</p>
-
-      <p>Keep reading small, and take notes — the practice compounds.</p>
-    </article>
+  <main class="container" id="post-content">
+    <!-- Post content will be loaded from JSON -->
   </main>
 
-  <div id="site-footer" data-include="/blog/partials/footer.html"></div>
-  <script src="/blog/js/includes.js"></script>
-  <script src="/blog/js/gallery.js"></script>
-  <script src="/blog/js/spa.js"></script>
+  <div id="site-footer" data-include="../../partials/footer.html"></div>
+  <script src="../../js/includes.js"></script>
+  <script src="../../js/gallery.js"></script>
+  <script src="../../js/spa.js"></script>
+  <script>
+    const loadPost = async () => {
+      // Extract slug from URL
+      const slug = window.location.pathname.split('/').pop().replace('.html', '');
+      
+      const urls = ['../musings.json'];
+      let data = null;
+      
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, {cache:'no-store'});
+          if (res.ok) {
+            data = await res.json();
+            break;
+          }
+        } catch (e) {
+          console.warn('Failed to fetch ' + url);
+        }
+      }
+      
+      if (!data) {
+        document.getElementById('post-content').innerHTML = '<p>Error loading post.</p>';
+        return;
+      }
+      
+      const post = data.find(p => p.slug === slug);
+      if (!post) {
+        document.getElementById('post-content').innerHTML = '<p>Post not found.</p>';
+        return;
+      }
+      
+      // Update page title
+      document.title = post.title + ' — Musings';
+      
+      // Render post content
+      document.getElementById('post-content').innerHTML = post.content;
+    };
+    
+    loadPost();
+  </script>
 </body>
 </html>

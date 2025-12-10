@@ -7,17 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let url = el.getAttribute('data-include');
     if (!url) return;
 
-    // Try to fetch the URL, with fallback for / vs local dev
+    // Fetch the URL
     const attemptFetch = async () => {
       try {
         const res = await fetch(url, { cache: 'no-store' });
         if (res.ok) return res;
-        // If / path failed, try without /
-        if (url.startsWith('/')) {
-          const altUrl = url.replace('/', '/');
-          const altRes = await fetch(altUrl, { cache: 'no-store' });
-          if (altRes.ok) return altRes;
-        }
         throw new Error('Not found');
       } catch (e) {
         throw new Error('Include fetch failed for ' + url);
