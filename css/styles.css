@@ -19,7 +19,9 @@ body{
 .container{max-width:var(--max-width);margin:0 auto;padding:48px 24px}
 .site-header{border-bottom:1px solid #efefef}
 .site-header .container{display:flex;align-items:center;justify-content:space-between}
-.brand{font-weight:600;color:var(--accent);text-decoration:none;font-size:1rem;display:flex;flex-direction:column;align-items:flex-start}
+.brand{font-weight:600;color:var(--accent);text-decoration:none;font-size:1rem;display:flex;flex-direction:row;align-items:center}
+.brand-logo{width: 90px;height:53px;object-fit:contain;margin-right:12px;flex:0 0 48px}
+.brand-text{display:flex;flex-direction:column;align-items:flex-start}
 .brand-title{font-weight:700}
 .brand-subtitle{font-weight:400;color:var(--muted);font-size:0.85rem;margin-top:2px}
 /* Placeholder space & fade-in for client-included fragments to reduce layout flash */
@@ -32,7 +34,7 @@ body{
   #site-header, #site-footer{min-height:72px}
 }
 nav a{margin-left:18px;color:var(--muted);text-decoration:none}
-.hero h1{font-family:'Source Serif 4', Georgia, serif;font-size:2.25rem;margin:8px 0}
+.hero h1{font-family:'Source Serif 4', Georgia, serif;font-size:2rem;margin:8px 0}
 .lede{color:var(--muted);max-width:62ch}
 .posts-list{list-style:none;padding:0;margin:24px 0 48px}
 .post-item{padding:18px 0;border-bottom:1px solid #f3f3f3}

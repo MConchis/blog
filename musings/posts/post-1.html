@@ -20,61 +20,34 @@
   <script src="../../js/spa.js"></script>
   <script>
     const loadPost = async () => {
-      // Extract slug from URL
       const slug = window.location.pathname.split('/').pop().replace('.html', '');
-      console.log('[post] loading slug', slug);
-      
       const urls = ['../musings.json'];
       let data = null;
-      
       for (const url of urls) {
         try {
-          console.log('[post] fetching', url);
           const res = await fetch(url, {cache:'no-store'});
-          console.log('[post] response', url, res && res.status);
-          if (res.ok) {
-            data = await res.json();
-            break;
-          } else {
-            const text = await res.text().catch(()=>'<no body>');
-            console.error('[post] fetch failed', url, res.status, text);
-          }
-        } catch (e) {
-          console.error('[post] fetch error for', url, e && e.message, e);
-        }
+          if (res.ok) { data = await res.json(); break; }
+        } catch (e) { /* ignore */ }
       }
-      
       const mount = document.getElementById('post-content');
-      if (!data) {
-        mount.innerHTML = '<p>Error loading post. See console for details.</p>';
-        return;
-      }
-      
+      if (!data) { mount.innerHTML = '<p>Error loading post.</p>'; return; }
       const post = data.find(p => p.slug === slug);
-      if (!post) {
-        console.error('[post] not found:', slug, 'available:', data.map(d=>d.slug));
-        mount.innerHTML = `<p>Post "${slug}" not found. Available: ${data.map(d=>d.slug).join(', ')}</p>`;
-        return;
-      }
-      
-      // Update page title
+      if (!post) { mount.innerHTML = '<p>Post not found.</p>'; return; }
       document.title = post.title + ' — Musings';
-      
-      // Render post content
       mount.innerHTML = post.content;
+      setTimeout(function () {
+        if (window.initGallery) { try { window.initGallery(); } catch (e) {} }
+      }, 250);
     };
-    
+
     loadPost();
 
     // Re-run when SPA loads this page
     window.addEventListener('spa:page-loaded', (ev) => {
       try {
         const path = new URL(window.location.href).pathname;
-        if (path.endsWith('/' + window.location.pathname.split('/').pop())) {
-          console.log('[post] SPA page-loaded, reloading post');
-          loadPost();
-        }
-      } catch(e) { console.warn('[post] spa event handler error', e); }
+        if (path.endsWith('/' + window.location.pathname.split('/').pop())) loadPost();
+      } catch(e) { /* ignore */ }
     });
   </script>
 </body>

@@ -34,12 +34,33 @@
         .project-header{ display:flex; gap:12px; align-items:center }
         .project-logo{ width:64px; height:64px; object-fit:contain }
         .project-info h3{ margin:0; font-size:1.05rem }
-        .screenshots{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
-        .screenshots img{ width:220px; height:140px; object-fit:cover; border-radius:6px; background:#f3f3f3 }
+        .screenshots{ display:flex; gap:10px; align-items:flex-start; flex-wrap:wrap }
+        .screenshot-figure{ display:flex; flex-direction:column; gap:6px; }
+        .screenshots img{ width:220px; height:140px; object-fit:cover; border-radius:6px; background:#f3f3f3; display:block }
+        .project-image-caption{ font-size:0.8rem; color:var(--muted); margin:0; max-width:220px }
         @media (max-width:700px){ .screenshots img{ width:48vw; height:32vw } }
       `;
       const s=document.createElement('style'); s.textContent=css; document.head.appendChild(s);
     })();
+
+    // Convert plain text descriptions from JSON into safe HTML paragraphs
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function descriptionToHtml(raw) {
+      if (!raw) return '';
+      // Normalize newlines
+      let s = String(raw).replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+      // Split on two-or-more newlines for paragraphs
+      const paras = s.split(/\n{2,}/g);
+      return paras.map(p => '<p class="lede">' + escapeHtml(p).replace(/\n/g, '<br>') + '</p>').join('');
+    }
 
     // Fetch and render projects.json with fallback for / paths
     const attemptFetch = async () => {
@@ -74,13 +95,24 @@
         art.appendChild(header);
 
         if (p.description) {
-          const descr = document.createElement('p'); descr.className='lede'; descr.textContent = p.description; art.appendChild(descr);
+          // Convert JSON description text into safe HTML paragraphs and line-breaks
+          const html = descriptionToHtml(p.description);
+          const wrapper = document.createElement('div');
+          wrapper.innerHTML = html;
+          art.appendChild(wrapper);
         }
 
         if (p.images && p.images.length) {
           const shots = document.createElement('div'); shots.className='screenshots';
-          p.images.forEach(src=>{
-            const im = document.createElement('img'); im.className='screenshot screenshot-link'; im.src = src; im.setAttribute('data-full', src); im.alt = p.title + ' screenshot'; shots.appendChild(im);
+          p.images.forEach((src, idx)=>{
+            const im = document.createElement('img'); im.className='screenshot screenshot-link'; im.src = src; im.setAttribute('data-full', src); im.alt = p.title + ' screenshot';
+            const fig = document.createElement('figure'); fig.className = 'screenshot-figure';
+            fig.appendChild(im);
+            const cap = document.createElement('figcaption'); cap.className = 'project-image-caption';
+            const credit = p.imageCredit ? p.imageCredit : '© Image credit placeholder.';
+            cap.textContent = credit;
+            fig.appendChild(cap);
+            shots.appendChild(fig);
           });
           art.appendChild(shots);
         }

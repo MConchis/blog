@@ -29,29 +29,68 @@
       // Update title
       if (doc.title) document.title = doc.title;
 
-      // Execute any scripts that came with the fetched content.
-      // Browsers do not run <script> tags inserted via innerHTML, so we
-      // need to recreate them to execute inline and external scripts.
+      // Update the browser URL before executing injected scripts so that
+      // any relative URLs inside those scripts resolve against the new
+      // location. This avoids 404s for fetch('./musings.json') when the
+      // script is executed while the document.location is still the
+      // previous page.
+      if (addToHistory) history.pushState({spa: true, url: url}, '', url);
+
+      // Execute scripts from the fetched document (body scripts) in order.
+      // This handles inline scripts that appear after <main> in the page
+      // as well as external scripts. External scripts are only loaded if
+      // there isn't already a script with the same `src` in the current page.
       try {
-        const runScripts = (container) => {
-          const scripts = Array.from(container.querySelectorAll('script'));
-          scripts.forEach(old => {
-            const s = document.createElement('script');
-            // copy attributes (src, type, etc.)
-            for (let i = 0; i < old.attributes.length; i++) {
-              const attr = old.attributes[i];
-              s.setAttribute(attr.name, attr.value);
+        const runScriptsFromDoc = async (doc) => {
+          // Ensure we track which inline scripts we've executed via SPA
+          if (!window.__spaExecutedScripts) window.__spaExecutedScripts = new Set();
+          const scripts = Array.from(doc.querySelectorAll('body script'));
+          for (const old of scripts) {
+            // If external script, skip if already present in current document
+            const src = old.getAttribute('src');
+            if (src) {
+              const already = document.querySelector('script[src="' + src + '"]');
+              if (already) continue;
+              // create a new script element and append to head so it executes
+              await new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                // copy attributes
+                for (let i = 0; i < old.attributes.length; i++) {
+                  const attr = old.attributes[i];
+                  s.setAttribute(attr.name, attr.value);
+                }
+                s.onload = () => resolve();
+                s.onerror = (e) => { console.warn('Failed to load script', src, e); resolve(); };
+                document.head.appendChild(s);
+              });
+            } else {
+              // Inline script: avoid re-running identical inline scripts which
+              // can cause "Identifier ... has already been declared" errors
+              // when const/let/function are declared twice. Use script text
+              // as a key in a Set to skip duplicates.
+              try {
+                const text = (old.textContent || '').trim();
+                if (text && window.__spaExecutedScripts.has(text)) {
+                  // already executed this inline script via SPA
+                  continue;
+                }
+                const s = document.createElement('script');
+                if (old.type) s.type = old.type;
+                s.textContent = old.textContent;
+                document.body.appendChild(s);
+                // remove it right away to avoid accumulation
+                document.body.removeChild(s);
+                if (text) window.__spaExecutedScripts.add(text);
+              } catch (e) {
+                console.warn('Failed to execute inline script', e);
+              }
             }
-            // inline script content
-            if (old.textContent) s.textContent = old.textContent;
-            // replace the old script with the new one so it executes
-            old.parentNode.replaceChild(s, old);
-          });
+          }
         };
 
-        runScripts(newMain);
+        await runScriptsFromDoc(doc);
       } catch (e) {
-        console.warn('Failed to execute inline scripts for SPA-inserted content', e);
+        console.warn('Failed to execute scripts from fetched document', e);
       }
 
       // Update footer/year and gallery bindings if needed
@@ -60,7 +99,6 @@
       // Notify listeners that a new page was loaded via SPA
       window.dispatchEvent(new CustomEvent('spa:page-loaded', { detail: { url } }));
 
-      if (addToHistory) history.pushState({spa: true, url: url}, '', url);
       window.scrollTo(0,0);
     } catch (err) {
       console.error('SPA load error', err);
