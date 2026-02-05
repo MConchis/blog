@@ -124,5 +124,26 @@
       if (window.initGallery) { try { window.initGallery(); } catch(e){ console.warn(e) } }
     }).catch(err=>{ console.error('Failed to load projects.json', err); document.getElementById('projects').innerHTML='<p>Error loading projects.</p>' });
   </script>
+  <script>
+    (function tweakPortfolioHeader(){
+      function applyChanges() {
+        const header = document.getElementById('site-header');
+        if (!header) return false;
+        const brand = header.querySelector('.brand');
+        if (brand && brand.tagName && brand.tagName.toLowerCase() === 'a') {
+          const span = document.createElement('span');
+          span.className = brand.className || 'brand';
+          while (brand.firstChild) span.appendChild(brand.firstChild);
+          brand.parentNode.replaceChild(span, brand);
+        }
+        const navLinks = header.querySelectorAll('nav a');
+        navLinks.forEach(a => { if (a.textContent && a.textContent.trim() === 'Musings') a.remove(); });
+        return true;
+      }
+      function waitAndApply() { if (!applyChanges()) setTimeout(waitAndApply, 120); }
+      document.addEventListener('DOMContentLoaded', waitAndApply);
+      window.addEventListener('spa:page-loaded', waitAndApply);
+    })();
+  </script>
 </body>
 </html>
